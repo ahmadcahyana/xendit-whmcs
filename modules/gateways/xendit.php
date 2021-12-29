@@ -50,22 +50,6 @@ function xendit_config()
             'Default' => '',
             'Description' => 'Enter secret key here',
         ),
-        'expired' => array(
-            'FriendlyName' => 'Time Invoice Expired',
-            'Type' => 'dropdown',
-            'Options' => array(
-                '300' => '5 Minutes',
-                '900' => '15 Minutes',
-                '1800' => '30 Minutes',
-                '3600' => '1 Hour',
-                '10800' => '3 Hours',
-                '21600' => '6 Hours',
-                '43200' => '12 Hours',
-                '86400' => '1 Day',
-                '259200' => '3 Days',
-            ),
-            'Description' => 'Select Duration Time For Invoice Expired.',
-        ),
         'TestMode' => array(
             'FriendlyName' => 'Test Mode',
             'Type' => 'yesno',
@@ -88,13 +72,7 @@ function xendit_link($params)
 {
 
     // Gateway Configuration Parameters
-    $accountId = $params['accountID'];
     $secretKey = $params['secretKey'];
-    $callbackToken = $params['callbackToken'];
-    $testMode = $params['testMode'];
-    $dropdownField = $params['dropdownField'];
-    $radioField = $params['radioField'];
-    $textareaField = $params['textareaField'];
 
     // Invoice Parameters
     $invoiceId = $params['invoiceid'];
@@ -150,7 +128,6 @@ function xendit_link($params)
     }
 
     $postfields = array();
-    $postfields['username'] = $username;
     $postfields['invoice_id'] = $invoiceId;
     $postfields['description'] = $description;
     $postfields['amount'] = $amount;
@@ -187,11 +164,7 @@ function invoice_url($invoiceId)
     if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')
         $link = "https";
     else $link = "http";
-
-    // Here append the common URL characters.
     $link .= "://";
-
-    // Append the host(domain name, ip) to the URL.
     $link .= $_SERVER['HTTP_HOST'];
 
     return $link . '/viewinvoice.php?id=' . $invoiceId;
