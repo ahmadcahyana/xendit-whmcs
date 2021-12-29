@@ -1,0 +1,15 @@
+{
+    "name": "xyb/xendit",
+    "description": "xendit_unoficial",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ahmad Cahyana",
+            "email": "yana.santri17@gmail.com"
+        }
+    ],
+    "require": {
+        "xendit/xendit-php": "^2.17"
+    }
+}
