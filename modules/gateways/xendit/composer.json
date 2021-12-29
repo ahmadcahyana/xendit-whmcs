@@ -1,14 +1,14 @@
 {
     "name": "xyb/xendit",
-    "description": "xendit_unoficial",
-    "type": "project",
+    "description": "xendit unoficial for whmcs billing automation platform",
     "license": "MIT",
     "authors": [
         {
             "name": "Ahmad Cahyana",
-            "email": "yana.santri17@gmail.com"
+            "email": "ahmadcahyana@outlook.com"
         }
     ],
+    "homepage": "http://www.linkedin.com/in/ahmadcahyana",
     "require": {
         "xendit/xendit-php": "^2.17"
     }
