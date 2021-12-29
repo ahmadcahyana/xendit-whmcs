@@ -6,10 +6,11 @@ Xendit Payment Gateway modules allow you to integrate payment solutions with the
 platform.
 
 For more information, please contact me at:
-| :---: | :---: | :---: |
+| - | -  |
+| ------- | --- |
 | :e-mail: | ahmadcahyana@outlook.com |
 | :phone: | +628131676678 |
-| :globe_with_meridians: | https://xyb.web.id/payment-gateways/ |
+| :globe_with_meridians: | https://linkedin.com/in/ahmadcahyana |
 
 ## Recommended Module Content ##
 
