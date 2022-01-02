@@ -1,6 +1,6 @@
 <?php
 require 'xendit/vendor/autoload.php';
-
+use WHMCS\Billing\Invoice;
 if (!defined("WHMCS")) {
     die("This file cannot be accessed directly");
 }
@@ -50,10 +50,28 @@ function xendit_config()
             'Default' => '',
             'Description' => 'Enter secret key here',
         ),
-        'TestMode' => array(
-            'FriendlyName' => 'Test Mode',
-            'Type' => 'yesno',
-            'Description' => 'Testmode when not ready production',
+        'paymentfee' => array(
+            'FriendlyName'  => 'Payment Fee',
+            'Type'          => 'text',
+            'Size'          => '100',
+            'Default'       => '4950',
+            'Description'   => 'Fixed Amount Payment Fee Will Added to Invoice and Pay by Client. (Default: 4.500 + PPN 10% (From 4.500*10% = 450) = 4.950).',
+        ),
+        'expired' => array(
+            'FriendlyName'  => 'Time Invoice Expired',
+            'Type'          => 'dropdown',
+            'Options'       => array(
+                '300'       => '5 Minutes',
+                '900'       => '15 Minutes',
+                '1800'      => '30 Minutes',
+                '3600'      => '1 Hour',
+                '10800'     => '3 Hours',
+                '21600'     => '6 Hours',
+                '43200'     => '12 Hours',
+                '86400'     => '1 Day',
+                '259200'    => '3 Days',
+            ),
+            'Description'   => 'Select Duration Time For Invoice Expired.',
         ),
         'sendemail' => array(
             'FriendlyName' => 'Send Invoice Email',
@@ -76,9 +94,12 @@ function xendit_link($params)
 
     // Invoice Parameters
     $invoiceId = $params['invoiceid'];
+    $paymentfee = $params['paymentfee'];
     $description = $params["description"];
     $amount = $params['amount'];
     $currencyCode = $params['currency'];
+    $invoiceDuration = $params['expired'];
+    $invoice = localAPI(/**command*/'GetInvoice', /**postData*/['invoiceid' => $invoiceId]);
 
     // Client Parameters
     $firstname = $params['clientdetails']['firstname'];
@@ -104,7 +125,15 @@ function xendit_link($params)
 
     \Xendit\Xendit::setApiKey($secretKey);
     try {
-
+        $items = array();
+        foreach ($invoice['items']['item'] as $item) {
+            $item_price = (float) $item['amount'];
+            $items[] = [
+                'quantity' => 1,
+                'name' => $item['description'],
+                'price' => $item_price,
+            ];
+        }
         $redirectUrl = invoice_url($invoiceId);
         $invoiceParam = '/?external_id=' . $invoiceId;
         $getInvoice = \Xendit\Invoice::retrieve($invoiceParam);
@@ -113,7 +142,10 @@ function xendit_link($params)
                 'external_id' => (string)$invoiceId,
                 'payer_email' => $email,
                 'description' => $description,
+                'items' => $items,
+                'fees' => array(['type' => 'Payment Fee', 'value' => (float)$paymentfee]),
                 'amount' => $amount,
+                'invoice_duration' => $invoiceDuration,
                 'success_redirect_url' => $redirectUrl,
                 'failure_redirect_url' => $redirectUrl
             ];
