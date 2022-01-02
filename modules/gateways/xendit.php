@@ -144,10 +144,11 @@ function xendit_link($params)
                 'description' => $description,
                 'items' => $items,
                 'fees' => array(['type' => 'Payment Fee', 'value' => (float)$paymentfee]),
-                'amount' => $amount,
+                'amount' => $amount + (float)$paymentfee,
                 'invoice_duration' => $invoiceDuration,
                 'success_redirect_url' => $redirectUrl,
-                'failure_redirect_url' => $redirectUrl
+                'failure_redirect_url' => $redirectUrl,
+                'customer' => ['given_names' => $firstname . '' . $lastname, 'mobile_number' => $phone]
             ];
             $createInvoice = \Xendit\Invoice::create($invoiceData);
             $url = $createInvoice['invoice_url'];
