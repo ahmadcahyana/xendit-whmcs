@@ -16,7 +16,7 @@ platform.
 2. Go to menu Setup -> Payments -> Payment Gateways.
 3. There are will be `**Xendit Payment Gateway Module**`
 4. Then choose Setup -> Payments -> Payment Gateways -> Manage Existing Gateways
-5. Fill the input as instructed on the screen such us `secretKey` and `callbackToken` see [Xendit Setup](#xendit') below
+5. Fill the input as instructed on the screen such us `secretKey` and `callbackToken` see [Xendit Setup](#xendit-setup) below
 6. Click Save Changes
 
 ## Xendit Setup ##
